@@ -25,12 +25,17 @@ class Author(BaseModel):
 
 # функция к сожалению не работает, не знаю, как ее правильно записать(
     def update_rating(self):
-        posts_rate = self.post_set.all().aggregate(post_sum=Sum('post_rating') * 3)['post_sum']
-        self_comm_rate = self.user.comment_set.all().aggregate(self_comm_sum=Sum('comment_rating'))['self_comm_sum']
-        total_comm_rate = self.post_set.all().aggregate(Sum('comment__comment_rating'))['comment__comment_rating__sum']
-        own_post_rate = self.user.comment_set.all().filter(post__author_id=self.id).aggregate(Sum('comment_rating'))[
-                'comment_rating__sum']
-        self.author_rating = posts_rate + self_comm_rate + total_comm_rate - own_post_rate
+        self.author_rating = 0
+        self.total_comment_rating = 0
+        self.total_post_rating = 0
+        self.total_comment_post = 0
+        for com_iter in Comment.objects.filter(comment_user=self.author):
+            self.total_comment_rating = self.total_comment_rating + com_iter.comment_rating
+        for post_iter in Post.objects.filter(author=self.author_id):
+            self.total_post_rating = self.total_post_rating + post_iter.post_rating
+            for com_iter in Comment.objects.filter(comment_post=post_iter):
+                self.total_comment_post = self.total_comment_post + com_iter.comment_rating
+        self.author_rating = (self.total_post_rating * 3) + self.total_comment_rating + self.total_comment_post
         self.save()
 
 
