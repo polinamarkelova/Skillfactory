@@ -84,4 +84,4 @@ author_1 = Author.objects.get(pk=1)
 author_1.update_rating()
 
 author_2 = Author.objects.get(pk=2)
-
+author_2.update_rating()
