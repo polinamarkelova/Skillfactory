@@ -31,7 +31,7 @@ class Author(BaseModel):
         self.total_comment_post = 0
         for com_iter in Comment.objects.filter(comment_user=self.author):
             self.total_comment_rating = self.total_comment_rating + com_iter.comment_rating
-        for post_iter in Post.objects.filter(author=self.author_id):
+        for post_iter in Post.objects.filter(author=self):
             self.total_post_rating = self.total_post_rating + post_iter.post_rating
             for com_iter in Comment.objects.filter(comment_post=post_iter):
                 self.total_comment_post = self.total_comment_post + com_iter.comment_rating
@@ -54,7 +54,7 @@ class Post(BaseModel):
 
     post_type = models.CharField(max_length=2, choices=CHOICES, default=article)
     posting_time = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField('Category', through='PostCategory')
+    category = models.ManyToManyField('Category', through='PostCategory', related_name='post')
     post_rating = models.SmallIntegerField(default=0)
 
     @property
@@ -80,6 +80,9 @@ class Post(BaseModel):
 
 class Category(BaseModel):
     category_name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.category_name
 
 
 class PostCategory(BaseModel):

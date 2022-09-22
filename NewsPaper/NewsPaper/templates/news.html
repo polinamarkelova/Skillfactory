@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+NewsPaper
+{% endblock title %}
+
+{% block content %}
+   <h1>Все публикации</h1>
+   <h3>{{ time_now|date:'M d Y' }}</h3>
+   <hr>
+   {% if news %}
+       <table align='center' border="0" cellspacing="0">
+           <tr>
+               <td>Заголовок</td>
+               <td>Публикация</td>
+               <td>Дата публикации</td>
+           </tr>
+
+           {% for post in news %}
+           <tr>
+               <td align="left">{{ post.title| censor }}</td>
+                <!-- Добавим специальный фильтр truncatechars,
+                чтобы ограничить количество символов до 15.
+                Все остальные символы превратятся в многоточие. -->
+               <td align="left">{{ post.text|truncatechars:20|censor }}</td>
+               <td>{{ post.posting_time|date:'d.m.Y' }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Новостей пока нет!</h2>
+   {% endif %}
+{% endblock content %}
+
