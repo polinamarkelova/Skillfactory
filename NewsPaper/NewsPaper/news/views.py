@@ -42,7 +42,7 @@ class PostSearch(ListView):
     model = Post
     ordering = '-posting_time'
     template_name = 'post_search.html'
-    context_object_name = 'search'
+    context_object_name = 'news'
     paginate_by = 10
 
     def get_queryset(self):
@@ -61,7 +61,7 @@ class NewsCreate(CreateView, PermissionRequiredMixin):
     model = Post
     permission_required = 'add_news'
     template_name = 'post_edit.html'
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('news_list')
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -75,7 +75,7 @@ class ArticleCreate(CreateView, PermissionRequiredMixin):
     model = Post
     permission_required = 'add_news'
     template_name = 'post_edit.html'
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('news_list')
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -88,11 +88,11 @@ class PostUpdate(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('news_list')
 
 
 class PostDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('news_list')
 
