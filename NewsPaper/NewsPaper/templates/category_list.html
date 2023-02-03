@@ -10,8 +10,11 @@ NewsPaper
 {% block content %}
    <h1>Все публикации</h1>
    <h3>{{ time_now|date:'M d Y' }}</h3>
+    {% if is_not_subscriber %}
+        <p class="test-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a></p>
+    {% endif %}
    <hr>
-   {% if news %}
+   {% if category_news_list %}
        <table align='center' border="0" cellspacing="0">
            <tr>
                <td>Заголовок</td>
@@ -20,13 +23,14 @@ NewsPaper
                <td>Дата публикации</td>
            </tr>
 
-           {% for post in news %}
+           {% for post in category_news_list %}
            <tr>
                <td align="left">{{ post.title| censor }}</td>
                 <td align="left">
                    {% for category in post.category.all %}
-                            <a href="{% url 'category_list' category.id %}">{{category}}</a>
+                            <a href="{% url 'category_list' category.id %}"> {{category}} </a>
                    {% endfor %}
+               </td>
                <td align="left">{{ post.text|truncatechars:20|censor }}</td>
                <td>{{ post.posting_time|date:'d.m.Y' }}</td>
            </tr>
