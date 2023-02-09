@@ -63,7 +63,7 @@ def notify_weekly():
     )
     print(html_content)
     msg = EmailMultiAlternatives(
-        subject="Posts on week",
+        subject="Check this out!",
         body='',
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=subscribers,
