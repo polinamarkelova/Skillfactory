@@ -20,7 +20,7 @@ def my_job():
     today = datetime.datetime.now()
     last_week = today - datetime.timedelta(days=7)
     posts = Post.objects.filter(posting_time__gte=last_week)
-    categories = set(posts.values_list('category__name', flat=True))
+    categories = set(posts.values_list('category__category_name', flat=True))
     subscribers = set(Category.objects.filter(name__in=categories).values_list('subscribers__email', flat=True))
     html_content = render_to_string(
         'daily_post.html',
