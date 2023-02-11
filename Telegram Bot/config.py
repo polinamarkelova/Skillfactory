@@ -1,4 +1,4 @@
-TOKEN = '5463469014:AAEFhFc_Vu8EgT80GDEbRgV_IAVkZiKjZjo'
+TOKEN 
 
 currencies = {
     "доллар": "USD",
